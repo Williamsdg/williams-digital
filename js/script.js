@@ -140,7 +140,7 @@ const counterObserver = new IntersectionObserver((entries) => {
 document.addEventListener('DOMContentLoaded', () => {
     // Reveal animations for cards and elements
     const revealElements = document.querySelectorAll(
-        '.card, .pricing-card, .portfolio-card, .testimonial, .faq-item, .value-card, .contact-info-item'
+        '.card, .pricing-card, .portfolio-card, .testimonial, .faq-item, .value-card, .contact-info-item, .baseball-card'
     );
 
     revealElements.forEach(el => {
@@ -202,4 +202,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         typeEffect();
     }
+
+    // Shop category filter
+    const categoryBtns = document.querySelectorAll('.shop-category-btn');
+    if (categoryBtns.length) {
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Animate cards out and back in
+                const cards = document.querySelectorAll('.baseball-card');
+                cards.forEach((card, i) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px) scale(0.95)';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0) scale(1)';
+                    }, 100 + i * 80);
+                });
+            });
+        });
+    }
+
+    // Add to cart button feedback
+    document.querySelectorAll('.card-add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const original = btn.textContent;
+            btn.textContent = 'Added!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            setTimeout(() => {
+                btn.textContent = original;
+                btn.style.background = '';
+            }, 1500);
+        });
+    });
 });
